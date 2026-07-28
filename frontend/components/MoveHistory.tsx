@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { History, ShieldAlert } from 'lucide-react';
+import { History, ShieldAlert, Sprout } from 'lucide-react';
 
 interface MoveHistoryProps {
   history: string[];
@@ -9,38 +9,45 @@ interface MoveHistoryProps {
 
 export const MoveHistory: React.FC<MoveHistoryProps> = ({ history }) => {
   return (
-    <div className="w-full max-w-4xl mx-auto bg-[#141416] p-4 rounded-2xl border border-white/5 space-y-3">
-      <div className="flex items-center gap-2 text-xs font-semibold text-wood-brass uppercase tracking-wider">
-        <History className="w-3.5 h-3.5 text-wood-brass" />
-        <span>Match Play Log</span>
+    <div className="mx-auto w-full max-w-4xl card p-4 sm:p-5">
+      <div className="mb-3 flex items-center gap-2 text-[11px] font-medium uppercase tracking-[0.18em] text-neutral-400">
+        <History className="h-3.5 w-3.5 text-wood-brass" />
+        Play log
       </div>
 
-      <div className="max-h-36 overflow-y-auto space-y-1.5 pr-2 scrollbar-thin scrollbar-thumb-white/10">
+      <div className="scroll-slim max-h-40 space-y-1.5 overflow-y-auto pr-1.5">
         {history.length === 0 ? (
-          <p className="text-xs text-neutral-500 italic py-2 text-center">
-            No moves played yet. Select a pit on your row to sow seeds!
+          <p className="py-6 text-center text-xs italic text-neutral-600">
+            No moves yet — choose a glowing pit on your row to sow.
           </p>
         ) : (
-          history.slice().reverse().map((log, index) => {
-            const isGrandSlam = log.includes('Grand Slam disallowed');
-            const hasCapture = log.includes('& captured');
+          history
+            .slice()
+            .reverse()
+            .map((log, index) => {
+              const isGrandSlam = log.includes('Grand Slam disallowed');
+              const hasCapture = log.includes('& captured');
 
-            return (
-              <div
-                key={index}
-                className={`flex items-start gap-2 p-2 rounded-xl text-xs ${
-                  isGrandSlam
-                    ? 'bg-rose-950/30 border border-rose-500/20 text-rose-300'
-                    : hasCapture
-                    ? 'bg-wood-brass/10 border border-wood-brass/20 text-neutral-200 font-medium'
-                    : 'bg-black/30 text-neutral-400 border border-white/5'
-                }`}
-              >
-                {isGrandSlam && <ShieldAlert className="w-3.5 h-3.5 text-rose-400 shrink-0 mt-0.5" />}
-                <span className="leading-tight">{log}</span>
-              </div>
-            );
-          })
+              return (
+                <div
+                  key={index}
+                  className={`flex items-start gap-2 rounded-lg px-3 py-2 text-xs ${
+                    isGrandSlam
+                      ? 'border border-clay/20 bg-clay/10 text-clay'
+                      : hasCapture
+                        ? 'border border-wood-brass/25 bg-wood-brass/10 text-neutral-100'
+                        : 'border border-line/60 bg-panel2/30 text-neutral-400'
+                  }`}
+                >
+                  {isGrandSlam ? (
+                    <ShieldAlert className="mt-0.5 h-3.5 w-3.5 shrink-0 text-clay" />
+                  ) : hasCapture ? (
+                    <Sprout className="mt-0.5 h-3.5 w-3.5 shrink-0 text-wood-brass" />
+                  ) : null}
+                  <span className="leading-snug">{log}</span>
+                </div>
+              );
+            })
         )}
       </div>
     </div>

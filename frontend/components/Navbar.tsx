@@ -1,8 +1,9 @@
 'use client';
 
 import React from 'react';
+import Link from 'next/link';
 import { GameMode } from '@/lib/api';
-import { BookOpen, RefreshCw, Trophy, Users, Bot } from 'lucide-react';
+import { BookOpen, RefreshCw, Users, Bot } from 'lucide-react';
 
 interface NavbarProps {
   mode?: GameMode;
@@ -12,55 +13,50 @@ interface NavbarProps {
 
 export const Navbar: React.FC<NavbarProps> = ({ mode, onReset, onOpenRules }) => {
   return (
-    <header className="w-full bg-[#121215]/80 backdrop-blur-xl border-b border-white/5 py-3.5 px-4 sm:px-8 sticky top-0 z-40">
-      <div className="max-w-6xl mx-auto flex items-center justify-between">
-        {/* Brand & Cultural Title */}
-        <div className="flex items-center gap-3">
-          <div className="w-9 h-9 rounded-xl bg-wood-board/80 border border-wood-brass/30 flex items-center justify-center shadow-md">
-            <Trophy className="w-4 h-4 text-wood-brass" />
+    <header className="sticky top-0 z-40 border-b border-line/70 bg-ink/70 backdrop-blur-xl">
+      <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-3.5 sm:px-6">
+        {/* Brand */}
+        <Link href="/" className="group flex items-center gap-3">
+          <div className="flex h-9 w-9 items-center justify-center rounded-xl border border-wood-brass/30 bg-wood-brass/10 shadow-inner">
+            <span className="text-base font-semibold text-wood-brass">à</span>
           </div>
-          <div>
-            <h1 className="text-lg sm:text-xl font-bold tracking-tight text-neutral-100">
-              Ayò Ọlọ́pọ́n
-            </h1>
-            <p className="text-[10px] text-neutral-400 font-medium">
-              Yoruba Count &amp; Capture Strategy
-            </p>
+          <div className="leading-tight">
+            <h1 className="text-[15px] font-semibold tracking-tight text-neutral-100">Ayò Ọlọ́pọ́n</h1>
+            <p className="text-[10px] uppercase tracking-[0.2em] text-neutral-500">Game of the Intellectuals</p>
           </div>
-        </div>
+        </Link>
 
-        {/* Action Controls & Mode Badge */}
-        <div className="flex items-center gap-2 sm:gap-3">
+        {/* Actions */}
+        <div className="flex items-center gap-2">
           {mode && (
-            <div className="hidden sm:flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/5 border border-white/10 text-xs text-neutral-300 font-medium">
-              {mode === 'VS_AI' ? (
-                <>
-                  <Bot className="w-3.5 h-3.5 text-wood-brass" /> VS Ọ̀tá Bot
-                </>
-              ) : (
-                <>
-                  <Users className="w-3.5 h-3.5 text-wood-brass" /> Pass &amp; Play
-                </>
-              )}
-            </div>
+            <span className="hidden items-center gap-1.5 rounded-full border border-line bg-panel2/50 px-3 py-1.5 text-[11px] font-medium text-neutral-300 sm:flex">
+              {mode === 'VS_AI' ? <Bot className="h-3.5 w-3.5 text-wood-brass" /> : <Users className="h-3.5 w-3.5 text-wood-brass" />}
+              {mode === 'VS_AI' ? 'vs Ọ̀tá Bot' : 'Pass & Play'}
+            </span>
           )}
+
+          <Link
+            href="/about"
+            className="hidden rounded-lg px-3 py-1.5 text-[12px] font-medium text-neutral-400 transition-colors hover:text-neutral-100 sm:block"
+          >
+            About
+          </Link>
 
           <button
             onClick={onOpenRules}
-            className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 text-xs font-medium text-neutral-300 transition-all duration-200"
+            className="flex items-center gap-1.5 rounded-lg border border-line bg-panel2/50 px-3 py-1.5 text-[12px] font-medium text-neutral-300 transition-colors hover:border-line hover:text-neutral-100"
           >
-            <BookOpen className="w-3.5 h-3.5 text-wood-brass" />
-            <span className="hidden sm:inline">Rules &amp; History</span>
-            <span className="sm:hidden">Rules</span>
+            <BookOpen className="h-3.5 w-3.5 text-wood-brass" />
+            <span className="hidden sm:inline">Rules</span>
           </button>
 
           {mode && (
             <button
               onClick={onReset}
-              className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl bg-wood-brass/90 hover:bg-wood-brass text-black text-xs font-semibold shadow-md transition-all duration-200 active:scale-95"
+              className="flex items-center gap-1.5 rounded-lg bg-wood-brass px-3.5 py-1.5 text-[12px] font-semibold text-black shadow-glow transition-transform active:scale-95"
             >
-              <RefreshCw className="w-3.5 h-3.5" />
-              <span>New Match</span>
+              <RefreshCw className="h-3.5 w-3.5" />
+              <span>New match</span>
             </button>
           )}
         </div>

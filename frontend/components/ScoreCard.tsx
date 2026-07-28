@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { Player, AyoBoard as AyoBoardModel } from '@/lib/api';
-import { Crown, Target } from 'lucide-react';
+import { Crown } from 'lucide-react';
 
 interface ScoreCardProps {
   board: AyoBoardModel;
@@ -11,92 +11,73 @@ interface ScoreCardProps {
   player2Name: string;
 }
 
-export const ScoreCard: React.FC<ScoreCardProps> = ({
-  board,
-  player1Name,
-  player2Name,
-}) => {
-  const WINNING_TARGET = 25;
+const WINNING_TARGET = 25;
 
-  const p1Captured = board.player1Captured;
-  const p2Captured = board.player2Captured;
+const Side: React.FC<{
+  name: string;
+  captured: number;
+  leading: boolean;
+  active: boolean;
+  dot: string;
+  barFrom: string;
+  align: 'left' | 'right';
+}> = ({ name, captured, leading, active, dot, barFrom, align }) => (
+  <div
+    className={`card p-4 transition-colors ${active ? 'border-wood-brass/40' : ''} ${
+      align === 'right' ? 'text-right' : ''
+    }`}
+  >
+    <div className={`mb-3 flex items-center gap-2 ${align === 'right' ? 'flex-row-reverse' : ''}`}>
+      <span className="h-2 w-2 rounded-full" style={{ background: dot }} />
+      <h3 className="text-sm font-medium text-neutral-200">{name}</h3>
+      {leading && (
+        <span className="flex items-center gap-1 rounded-full bg-wood-brass/15 px-2 py-0.5 text-[9px] font-bold uppercase tracking-wider text-wood-brass">
+          <Crown className="h-3 w-3" /> Ọ̀tá
+        </span>
+      )}
+    </div>
 
-  const p1Leader = p1Captured > p2Captured;
-  const p2Leader = p2Captured > p1Captured;
+    <div className={`flex items-end gap-1.5 ${align === 'right' ? 'flex-row-reverse' : ''}`}>
+      <span className="text-3xl font-semibold tabular-nums text-neutral-50">{captured}</span>
+      <span className="mb-1 text-[11px] text-neutral-500">/ {WINNING_TARGET} seeds</span>
+    </div>
+
+    <div className="mt-3 h-1 w-full overflow-hidden rounded-full bg-black/50">
+      <div
+        className="h-full rounded-full transition-all duration-700"
+        style={{
+          width: `${Math.min((captured / WINNING_TARGET) * 100, 100)}%`,
+          background: `linear-gradient(90deg, ${barFrom}, #caa96b)`,
+        }}
+      />
+    </div>
+  </div>
+);
+
+export const ScoreCard: React.FC<ScoreCardProps> = ({ board, currentTurn, player1Name, player2Name }) => {
+  const p1 = board.player1Captured;
+  const p2 = board.player2Captured;
 
   return (
-    <div className="w-full max-w-4xl mx-auto grid grid-cols-1 sm:grid-cols-2 gap-3.5">
-      {/* Player 1 Score Card */}
-      <div className={`p-4 rounded-2xl transition-all duration-300 ${
-        p1Leader
-          ? 'bg-[#181512] border border-wood-brass/30 shadow-lg'
-          : 'bg-[#141416] border border-white/5'
-      }`}>
-        <div className="flex items-center justify-between mb-2">
-          <div className="flex items-center gap-2">
-            <span className="w-2 h-2 rounded-full bg-emerald-400/80" />
-            <h3 className="font-semibold text-sm text-neutral-200">{player1Name}</h3>
-            {p1Leader && (
-              <span className="flex items-center gap-1 text-[9px] px-2 py-0.5 rounded-full bg-wood-brass/15 text-wood-brass font-bold border border-wood-brass/30">
-                <Crown className="w-3 h-3" /> Ọ̀TÁ
-              </span>
-            )}
-          </div>
-          <span className="text-xl sm:text-2xl font-bold text-neutral-100">{p1Captured}</span>
-        </div>
-
-        {/* Progress to 25 seeds */}
-        <div className="space-y-1">
-          <div className="flex items-center justify-between text-[10px] text-neutral-400">
-            <span>Captured Seeds</span>
-            <span className="flex items-center gap-1 text-neutral-400">
-              <Target className="w-3 h-3 text-wood-brass" /> {WINNING_TARGET} to win
-            </span>
-          </div>
-          <div className="w-full h-1.5 rounded-full bg-black/50 overflow-hidden border border-white/5">
-            <div
-              className="h-full bg-gradient-to-r from-emerald-600 to-wood-brass transition-all duration-500"
-              style={{ width: `${Math.min((p1Captured / WINNING_TARGET) * 100, 100)}%` }}
-            />
-          </div>
-        </div>
-      </div>
-
-      {/* Player 2 Score Card */}
-      <div className={`p-4 rounded-2xl transition-all duration-300 ${
-        p2Leader
-          ? 'bg-[#181512] border border-wood-brass/30 shadow-lg'
-          : 'bg-[#141416] border border-white/5'
-      }`}>
-        <div className="flex items-center justify-between mb-2">
-          <div className="flex items-center gap-2">
-            <span className="w-2 h-2 rounded-full bg-amber-400/80" />
-            <h3 className="font-semibold text-sm text-neutral-200">{player2Name}</h3>
-            {p2Leader && (
-              <span className="flex items-center gap-1 text-[9px] px-2 py-0.5 rounded-full bg-wood-brass/15 text-wood-brass font-bold border border-wood-brass/30">
-                <Crown className="w-3 h-3" /> Ọ̀TÁ
-              </span>
-            )}
-          </div>
-          <span className="text-xl sm:text-2xl font-bold text-neutral-100">{p2Captured}</span>
-        </div>
-
-        {/* Progress to 25 seeds */}
-        <div className="space-y-1">
-          <div className="flex items-center justify-between text-[10px] text-neutral-400">
-            <span>Captured Seeds</span>
-            <span className="flex items-center gap-1 text-neutral-400">
-              <Target className="w-3 h-3 text-wood-brass" /> {WINNING_TARGET} to win
-            </span>
-          </div>
-          <div className="w-full h-1.5 rounded-full bg-black/50 overflow-hidden border border-white/5">
-            <div
-              className="h-full bg-gradient-to-r from-amber-600 to-wood-brass transition-all duration-500"
-              style={{ width: `${Math.min((p2Captured / WINNING_TARGET) * 100, 100)}%` }}
-            />
-          </div>
-        </div>
-      </div>
+    <div className="mx-auto grid w-full max-w-4xl grid-cols-2 gap-3">
+      <Side
+        name={player1Name}
+        captured={p1}
+        leading={p1 > p2}
+        active={currentTurn === 'PLAYER_1'}
+        dot="#34d399"
+        barFrom="#0f9d6b"
+        align="left"
+      />
+      <Side
+        name={player2Name}
+        captured={p2}
+        leading={p2 > p1}
+        active={currentTurn === 'PLAYER_2'}
+        dot="#f5c563"
+        barFrom="#b98a2f"
+        align="right"
+      />
     </div>
   );
 };

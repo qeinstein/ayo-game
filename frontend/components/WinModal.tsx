@@ -3,7 +3,7 @@
 import React, { useEffect } from 'react';
 import { AyoGameSession } from '@/lib/api';
 import confetti from 'canvas-confetti';
-import { Trophy, RefreshCw, Sparkles } from 'lucide-react';
+import { Trophy, RefreshCw } from 'lucide-react';
 
 interface WinModalProps {
   game: AyoGameSession;
@@ -14,81 +14,64 @@ export const WinModal: React.FC<WinModalProps> = ({ game, onPlayAgain }) => {
   const isP1Won = game.status === 'PLAYER_1_WON';
   const isDraw = game.status === 'DRAW';
 
-  const winnerName = isDraw
-    ? 'Draw Match'
-    : isP1Won
-    ? game.player1Name
-    : game.player2Name;
-
+  const winnerName = isDraw ? 'Draw' : isP1Won ? game.player1Name : game.player2Name;
   const loserName = isP1Won ? game.player2Name : game.player1Name;
 
   useEffect(() => {
     if (!isDraw) {
       confetti({
-        particleCount: 100,
-        spread: 70,
-        origin: { y: 0.6 },
-        colors: ['#C5A880', '#10B981', '#F59E0B', '#E2E8F0'],
+        particleCount: 120,
+        spread: 75,
+        origin: { y: 0.55 },
+        colors: ['#caa96b', '#e7cd97', '#34d399', '#f5c563'],
       });
     }
   }, [isDraw]);
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/85 backdrop-blur-md animate-fade-in">
-      <div className="relative w-full max-w-md bg-[#141416] border border-white/10 rounded-3xl p-6 sm:p-8 shadow-2xl text-center space-y-6">
-        
-        {/* Crown Icon Header */}
-        <div className="inline-flex p-3.5 rounded-2xl bg-wood-brass/15 border border-wood-brass/30 text-wood-brass mx-auto">
-          <Trophy className="w-8 h-8" />
+    <div className="animate-fade-in fixed inset-0 z-50 flex items-center justify-center bg-black/85 p-4 backdrop-blur-md">
+      <div className="card w-full max-w-md animate-scale-in p-7 text-center sm:p-8">
+        <div className="mx-auto mb-5 inline-flex rounded-2xl border border-wood-brass/30 bg-wood-brass/10 p-4 text-wood-brass">
+          <Trophy className="h-8 w-8" />
         </div>
 
-        {/* Champion Announcement */}
-        <div className="space-y-1.5">
-          <div className="inline-flex items-center gap-1.5 px-3 py-0.5 rounded-full bg-white/5 border border-white/10 text-wood-brass text-[10px] font-bold uppercase tracking-wider">
-            <Sparkles className="w-3 h-3" /> Ọ̀TÁ (CHAMPION) ESTABLISHED
-          </div>
-          <h2 className="text-2xl font-bold text-neutral-100">
-            {isDraw ? 'Match Draw!' : `${winnerName} Wins!`}
-          </h2>
-          {!isDraw && (
-            <p className="text-xs text-neutral-400">
-              <strong className="text-emerald-400 font-semibold">{winnerName}</strong> is crowned <strong className="text-wood-brass font-semibold">Ọ̀tá</strong>. <span className="text-neutral-400">{loserName}</span> becomes <strong className="text-rose-400 font-semibold">Òpe</strong>.
-            </p>
-          )}
-        </div>
+        <p className="text-[11px] font-medium uppercase tracking-[0.3em] text-wood-brass">
+          {isDraw ? 'Match drawn' : 'Ọ̀tá crowned'}
+        </p>
+        <h2 className="mt-2 text-3xl font-semibold tracking-tight text-neutral-50">
+          {isDraw ? 'A dead heat' : `${winnerName} wins`}
+        </h2>
+        {!isDraw && (
+          <p className="mt-2 text-sm text-neutral-400">
+            <span className="text-jade">{winnerName}</span> takes the title;{' '}
+            <span className="text-neutral-300">{loserName}</span> becomes <span className="text-clay">Òpe</span>.
+          </p>
+        )}
 
-        {/* Final Score Breakdown */}
-        <div className="p-4 rounded-2xl bg-black/40 border border-white/5 grid grid-cols-2 gap-4">
-          <div className="space-y-0.5">
-            <span className="text-[10px] uppercase font-semibold text-neutral-400 block">
-              {game.player1Name}
-            </span>
-            <span className="text-2xl font-bold text-neutral-100">
+        <div className="mt-6 grid grid-cols-2 overflow-hidden rounded-2xl border border-line">
+          <div className="p-4">
+            <span className="block text-[11px] uppercase tracking-wide text-neutral-500">{game.player1Name}</span>
+            <span className="mt-1 block text-3xl font-semibold tabular-nums text-neutral-50">
               {game.board.player1Captured}
             </span>
-            <span className="text-[10px] text-neutral-500 block">seeds captured</span>
+            <span className="text-[10px] text-neutral-600">seeds</span>
           </div>
-
-          <div className="space-y-0.5 border-l border-white/5">
-            <span className="text-[10px] uppercase font-semibold text-neutral-400 block">
-              {game.player2Name}
-            </span>
-            <span className="text-2xl font-bold text-neutral-100">
+          <div className="border-l border-line p-4">
+            <span className="block text-[11px] uppercase tracking-wide text-neutral-500">{game.player2Name}</span>
+            <span className="mt-1 block text-3xl font-semibold tabular-nums text-neutral-50">
               {game.board.player2Captured}
             </span>
-            <span className="text-[10px] text-neutral-500 block">seeds captured</span>
+            <span className="text-[10px] text-neutral-600">seeds</span>
           </div>
         </div>
 
-        {/* Play Again Button */}
         <button
           onClick={onPlayAgain}
-          className="w-full py-3.5 px-6 rounded-2xl bg-wood-brass hover:bg-wood-brass/90 text-black font-bold text-xs shadow-lg flex items-center justify-center gap-2 transition-all duration-200 active:scale-95"
+          className="mt-6 flex w-full items-center justify-center gap-2 rounded-xl bg-wood-brass px-6 py-3 text-sm font-semibold text-black shadow-glow transition-all hover:bg-wood-brassSoft active:scale-[0.99]"
         >
-          <RefreshCw className="w-3.5 h-3.5" />
-          <span>Play Again</span>
+          <RefreshCw className="h-4 w-4" />
+          Play again
         </button>
-
       </div>
     </div>
   );

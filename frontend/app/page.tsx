@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
+import Link from 'next/link';
 import { Navbar } from '@/components/Navbar';
 import { GameSetup } from '@/components/GameSetup';
 import { AyoBoard } from '@/components/AyoBoard';
@@ -69,37 +70,28 @@ export default function Home() {
   );
 
   return (
-    <div className="min-h-screen flex flex-col bg-wood-pattern">
-      {/* Top Navbar */}
-      <Navbar
-        mode={game?.mode}
-        onReset={handleReset}
-        onOpenRules={() => setIsRulesOpen(true)}
-      />
+    <div className="flex min-h-screen flex-col">
+      <Navbar mode={game?.mode} onReset={handleReset} onOpenRules={() => setIsRulesOpen(true)} />
 
-      {/* Main Content Area */}
-      <main className="flex-1 max-w-5xl w-full mx-auto px-4 sm:px-6 py-6 sm:py-8 space-y-6">
+      <main className="mx-auto w-full max-w-5xl flex-1 space-y-6 px-4 py-7 sm:px-6 sm:py-9">
         {error && (
-          <div className="p-3 rounded-2xl bg-rose-950/80 border border-rose-500/40 text-rose-200 text-xs sm:text-sm text-center font-medium shadow-lg animate-fade-in">
+          <div className="animate-fade-in rounded-2xl border border-clay/30 bg-clay/10 px-4 py-3 text-center text-xs font-medium text-clay sm:text-sm">
             {error}
           </div>
         )}
 
         {!game ? (
-          <div className="flex items-center justify-center min-h-[70vh]">
+          <div className="flex min-h-[72vh] items-center justify-center">
             <GameSetup onStartGame={handleStartGame} isLoading={isLoading} />
           </div>
         ) : (
-          <div className="space-y-6 animate-fade-in">
-            {/* Scorecard Component */}
+          <div className="animate-fade-in space-y-6">
             <ScoreCard
               board={game.board}
               currentTurn={game.currentTurn}
               player1Name={game.player1Name}
               player2Name={game.player2Name}
             />
-
-            {/* Interactive Ọpọ́n Ayò Board */}
             <AyoBoard
               board={game.board}
               currentTurn={game.currentTurn}
@@ -108,19 +100,20 @@ export default function Home() {
               player1Name={game.player1Name}
               player2Name={game.player2Name}
             />
-
-            {/* Move Play History Log */}
             <MoveHistory history={game.history} />
           </div>
         )}
       </main>
 
-      {/* Footer */}
-      <footer className="py-4 text-center text-[11px] text-amber-200/40 border-t border-wood-gold/10 bg-[#120703]">
-        Ayò Ọlọ́pọ́n — Traditional Yoruba Mancala Game &copy; {new Date().getFullYear()}
+      <footer className="border-t border-line/70 py-5">
+        <div className="mx-auto flex max-w-5xl flex-col items-center justify-between gap-2 px-4 text-[11px] text-neutral-500 sm:flex-row">
+          <span>Ayò Ọlọ́pọ́n — Yoruba count &amp; capture · © {new Date().getFullYear()}</span>
+          <Link href="/about" className="transition-colors hover:text-wood-brass">
+            How it&apos;s built →
+          </Link>
+        </div>
       </footer>
 
-      {/* Modals */}
       <RulesModal isOpen={isRulesOpen} onClose={() => setIsRulesOpen(false)} />
       {game && isGameOver && <WinModal game={game} onPlayAgain={handleReset} />}
     </div>
