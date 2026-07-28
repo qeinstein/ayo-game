@@ -188,6 +188,20 @@ where:
 - **`POST /api/v1/ayo/games/{id}/reset`**
 - **Response**: `200 OK` with fresh `AyoGameSession`.
 
+### 5. Health Check
+- **`GET /api/v1/health`**
+- **Response**: `200 OK` `{"status": "UP", "service": "ayo-game-backend"}`.
+
+---
+
+## Scheduled Task Execution (`PingScheduler`)
+
+To prevent cloud container instances (such as Render free tiers) from spinning down after inactivity, the backend includes an automated `@Scheduled` background worker (`PingScheduler`).
+
+- **Frequency**: Triggers every **30 seconds** (`fixedRate = 30000`, `initialDelay = 10000`).
+- **Target URL**: Configurable via `PING_URL` environment variable (defaults to `https://ayo-game.onrender.com/api/v1/health`).
+- **Execution**: Sends an asynchronous HTTP GET request using Java's native `HttpClient` to keep the JVM warm and responsive.
+
 ---
 
 ## Build & Run Instructions
