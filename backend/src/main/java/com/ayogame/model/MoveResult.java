@@ -6,7 +6,7 @@ public class MoveResult {
     private int selectedPit;
     private int seedsSown;
     private int seedsCaptured;
-    private boolean isGrand SlamDisallowed;
+    private boolean isGrandSlamDisallowed;
     private boolean gameOver;
     private GameStatus status;
     private Player winner;
