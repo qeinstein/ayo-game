@@ -29,25 +29,25 @@ const Side: React.FC<{
   >
     <div className={`mb-3 flex items-center gap-2 ${align === 'right' ? 'flex-row-reverse' : ''}`}>
       <span className="h-2 w-2 rounded-full" style={{ background: dot }} />
-      <h3 className="text-sm font-medium text-neutral-200">{name}</h3>
+      <h3 className="text-sm font-medium text-slate-700">{name}</h3>
       {leading && (
         <span className="flex items-center gap-1 rounded-full bg-wood-brass/15 px-2 py-0.5 text-[9px] font-bold uppercase tracking-wider text-wood-brass">
-          <Crown className="h-3 w-3" /> Ọ̀tá
+          <Crown className="h-3 w-3" /> Lead
         </span>
       )}
     </div>
 
     <div className={`flex items-end gap-1.5 ${align === 'right' ? 'flex-row-reverse' : ''}`}>
-      <span className="text-3xl font-semibold tabular-nums text-neutral-50">{captured}</span>
-      <span className="mb-1 text-[11px] text-neutral-500">/ {WINNING_TARGET} seeds</span>
+      <span className="text-3xl font-semibold tabular-nums text-slate-900">{captured}</span>
+      <span className="mb-1 text-[11px] text-slate-500">/ {WINNING_TARGET} seeds</span>
     </div>
 
-    <div className="mt-3 h-1 w-full overflow-hidden rounded-full bg-black/50">
+    <div className="mt-3 h-1 w-full overflow-hidden rounded-full bg-slate-100">
       <div
         className="h-full rounded-full transition-all duration-700"
         style={{
           width: `${Math.min((captured / WINNING_TARGET) * 100, 100)}%`,
-          background: `linear-gradient(90deg, ${barFrom}, #caa96b)`,
+          background: `linear-gradient(90deg, ${barFrom}, #b45309)`,
         }}
       />
     </div>
@@ -65,8 +65,8 @@ export const ScoreCard: React.FC<ScoreCardProps> = ({ board, currentTurn, player
         captured={p1}
         leading={p1 > p2}
         active={currentTurn === 'PLAYER_1'}
-        dot="#34d399"
-        barFrom="#0f9d6b"
+        dot="#0d9488"
+        barFrom="#0d9488"
         align="left"
       />
       <Side
@@ -74,8 +74,8 @@ export const ScoreCard: React.FC<ScoreCardProps> = ({ board, currentTurn, player
         captured={p2}
         leading={p2 > p1}
         active={currentTurn === 'PLAYER_2'}
-        dot="#f5c563"
-        barFrom="#b98a2f"
+        dot="#d97706"
+        barFrom="#d97706"
         align="right"
       />
     </div>

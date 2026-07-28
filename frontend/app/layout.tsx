@@ -9,9 +9,9 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: 'Ayò Ọlọ́pọ́n — Yoruba Strategy, Reimagined',
+  title: 'Ayo — Mancala Strategy Game',
   description:
-    'A refined, full-stack implementation of Ayò Ọlọ́pọ́n — the Yoruba Game of the Intellectuals. Real-time 3D carved board, authentic count-and-capture rules, and a minimax AI opponent over a concurrent Spring Boot service.',
+    'A clean, full-stack implementation of Ayo, the classic count-and-capture (Mancala) strategy game. Real-time 3D board, authentic rules, and a minimax AI opponent over a concurrent Spring Boot service.',
 };
 
 export default function RootLayout({
@@ -21,7 +21,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className={inter.variable}>
-      <body className="bg-ink text-neutral-100 min-h-screen flex flex-col">
+      <body className="bg-ink text-slate-900 min-h-screen flex flex-col">
         {children}
       </body>
     </html>

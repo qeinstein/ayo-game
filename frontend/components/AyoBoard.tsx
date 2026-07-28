@@ -8,9 +8,9 @@ const BoardCanvas = dynamic(() => import('./board/BoardCanvas'), {
   ssr: false,
   loading: () => (
     <div className="flex h-full w-full items-center justify-center">
-      <div className="flex flex-col items-center gap-3 text-neutral-500">
+      <div className="flex flex-col items-center gap-3 text-slate-500">
         <div className="h-6 w-6 animate-spin rounded-full border-2 border-wood-brass/70 border-t-transparent" />
-        <span className="text-xs tracking-wide">Carving the Ọpọ́n Ayò…</span>
+        <span className="text-xs tracking-wide">Preparing the board…</span>
       </div>
     </div>
   ),
@@ -38,8 +38,8 @@ const TurnChip: React.FC<{ active: boolean; label: string; sub: string; dot: str
       <span className="relative inline-flex h-2 w-2 rounded-full" style={{ background: dot }} />
     </span>
     <div className="leading-tight">
-      <span className="block text-[13px] font-medium text-neutral-100">{label}</span>
-      <span className="block text-[10px] uppercase tracking-[0.16em] text-neutral-500">{sub}</span>
+      <span className="block text-[13px] font-medium text-slate-900">{label}</span>
+      <span className="block text-[10px] uppercase tracking-[0.16em] text-slate-500">{sub}</span>
     </div>
     {active && (
       <span className="ml-1 rounded-full bg-wood-brass/15 px-2 py-0.5 text-[9px] font-bold uppercase tracking-wider text-wood-brass">
@@ -59,35 +59,35 @@ export const AyoBoard: React.FC<AyoBoardProps> = ({
       <div className="card overflow-hidden p-2 sm:p-3">
         {/* North player */}
         <div className="flex items-center justify-between px-2 py-2">
-          <TurnChip active={!isP1Turn} label={player2Name} sub="North" dot="#f5c563" />
-          <span className="hidden text-[10px] font-medium uppercase tracking-[0.35em] text-neutral-600 sm:block">
-            Ọpọ́n&nbsp;Ayò
+          <TurnChip active={!isP1Turn} label={player2Name} sub="North" dot="#d97706" />
+          <span className="hidden text-[10px] font-medium uppercase tracking-[0.35em] text-slate-400 sm:block">
+            Ayo
           </span>
         </div>
 
         {/* 3D board */}
-        <div className="relative h-[380px] w-full overflow-hidden rounded-2xl bg-gradient-to-b from-[#120c08] to-[#0b0806] sm:h-[460px] lg:h-[500px]">
+        <div className="relative h-[380px] w-full overflow-hidden rounded-2xl border border-line bg-gradient-to-b from-[#faf8f4] to-[#efece5] sm:h-[460px] lg:h-[500px]">
           <BoardCanvas
             board={board}
             currentTurn={currentTurn}
             isAiThinking={isAiThinking}
             onMakeMove={onMakeMove}
           />
-          <div className="pointer-events-none absolute bottom-2 left-1/2 -translate-x-1/2 text-[9px] uppercase tracking-[0.3em] text-neutral-600">
+          <div className="pointer-events-none absolute bottom-2 left-1/2 -translate-x-1/2 text-[9px] uppercase tracking-[0.3em] text-slate-400">
             Counter-clockwise&nbsp;↺&nbsp;· drag to admire
           </div>
         </div>
 
         {/* South player */}
         <div className="flex items-center justify-between px-2 py-2">
-          <TurnChip active={isP1Turn} label={player1Name} sub="South" dot="#34d399" />
+          <TurnChip active={isP1Turn} label={player1Name} sub="South" dot="#0d9488" />
           {isAiThinking ? (
             <div className="flex items-center gap-2 text-xs font-medium text-wood-brass">
               <div className="h-3 w-3 animate-spin rounded-full border-2 border-wood-brass border-t-transparent" />
-              <span>Ọ̀tá Bot is thinking…</span>
+              <span>Computer is thinking…</span>
             </div>
           ) : (
-            <span className="hidden text-[11px] text-neutral-500 sm:block">
+            <span className="hidden text-[11px] text-slate-500 sm:block">
               Tap a glowing pit on your row to sow
             </span>
           )}

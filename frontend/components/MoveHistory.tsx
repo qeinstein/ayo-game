@@ -10,14 +10,14 @@ interface MoveHistoryProps {
 export const MoveHistory: React.FC<MoveHistoryProps> = ({ history }) => {
   return (
     <div className="mx-auto w-full max-w-4xl card p-4 sm:p-5">
-      <div className="mb-3 flex items-center gap-2 text-[11px] font-medium uppercase tracking-[0.18em] text-neutral-400">
+      <div className="mb-3 flex items-center gap-2 text-[11px] font-medium uppercase tracking-[0.18em] text-slate-500">
         <History className="h-3.5 w-3.5 text-wood-brass" />
         Play log
       </div>
 
       <div className="scroll-slim max-h-40 space-y-1.5 overflow-y-auto pr-1.5">
         {history.length === 0 ? (
-          <p className="py-6 text-center text-xs italic text-neutral-600">
+          <p className="py-6 text-center text-xs italic text-slate-400">
             No moves yet — choose a glowing pit on your row to sow.
           </p>
         ) : (
@@ -35,8 +35,8 @@ export const MoveHistory: React.FC<MoveHistoryProps> = ({ history }) => {
                     isGrandSlam
                       ? 'border border-clay/20 bg-clay/10 text-clay'
                       : hasCapture
-                        ? 'border border-wood-brass/25 bg-wood-brass/10 text-neutral-100'
-                        : 'border border-line/60 bg-panel2/30 text-neutral-400'
+                        ? 'border border-wood-brass/25 bg-wood-brass/10 text-slate-900'
+                        : 'border border-line/60 bg-panel2/30 text-slate-500'
                   }`}
                 >
                   {isGrandSlam ? (

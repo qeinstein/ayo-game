@@ -174,7 +174,7 @@ function Bowl({
       <mesh scale={[1, 1, ovalZ]} receiveShadow>
         <sphereGeometry args={[bowlR, 40, 24, 0, Math.PI * 2, Math.PI / 2, Math.PI / 2]} />
         <meshStandardMaterial
-          color="#20140c"
+          color="#3a2414"
           roughness={0.95}
           metalness={0}
           side={THREE.BackSide}
@@ -238,10 +238,10 @@ function Bowl({
               'select-none rounded-full font-semibold tabular-nums leading-none transition',
               labelStrong ? 'px-2.5 py-1 text-[15px]' : 'px-2 py-0.5 text-[13px]',
               canClick
-                ? 'bg-wood-brass text-black shadow-[0_2px_10px_rgba(202,169,107,0.5)]'
+                ? 'bg-wood-brass text-white shadow-[0_2px_10px_rgba(180,83,9,0.45)]'
                 : dim
-                  ? 'bg-black/40 text-neutral-500'
-                  : 'bg-black/55 text-neutral-200',
+                  ? 'bg-slate-900/[0.06] text-slate-400'
+                  : 'bg-white/90 text-slate-700 shadow-sm ring-1 ring-black/5',
             ].join(' ')}
           >
             {label}
@@ -267,15 +267,13 @@ function Scene({ board, currentTurn, isAiThinking, onMakeMove }: SceneProps) {
 
   return (
     <>
-      <color attach="background" args={['#0c0a08']} />
-      <fog attach="fog" args={['#0c0a08', 18, 34]} />
-
-      <ambientLight intensity={0.5} />
-      <hemisphereLight args={['#fff2d8', '#241109', 0.5]} />
+      {/* Transparent canvas — the light page background shows through. */}
+      <ambientLight intensity={0.85} />
+      <hemisphereLight args={['#ffffff', '#e9e4da', 0.75]} />
       <directionalLight
         position={[6, 13, 7]}
-        intensity={1.7}
-        color="#fff3df"
+        intensity={2.0}
+        color="#fff6ea"
         castShadow
         shadow-mapSize-width={1024}
         shadow-mapSize-height={1024}
@@ -287,18 +285,18 @@ function Scene({ board, currentTurn, isAiThinking, onMakeMove }: SceneProps) {
         shadow-camera-bottom={-12}
         shadow-bias={-0.0004}
       />
-      <directionalLight position={[-9, 6, -5]} intensity={0.45} color="#c8a06a" />
-      <pointLight position={[0, 7, 3]} intensity={0.35} color="#ffe6bd" />
+      <directionalLight position={[-9, 6, -5]} intensity={0.55} color="#e8c9a0" />
+      <pointLight position={[0, 7, 3]} intensity={0.3} color="#fff1dc" />
 
       {/* Carved board slab. */}
       <mesh geometry={boardGeo} castShadow receiveShadow>
-        <meshStandardMaterial color="#3a281b" roughness={0.58} metalness={0.06} />
+        <meshStandardMaterial color="#6b4423" roughness={0.55} metalness={0.05} />
       </mesh>
 
       {/* Center inlay line between the two rows. */}
       <mesh position={[0, 0.005, 0]} rotation={[-Math.PI / 2, 0, 0]}>
         <planeGeometry args={[BOARD_W - 5.6, 0.05]} />
-        <meshStandardMaterial color="#caa96b" emissive="#8a6f43" emissiveIntensity={0.25} roughness={0.5} metalness={0.4} transparent opacity={0.55} />
+        <meshStandardMaterial color="#b45309" emissive="#b45309" emissiveIntensity={0.15} roughness={0.5} metalness={0.3} transparent opacity={0.5} />
       </mesh>
 
       {/* Pits. */}
@@ -318,7 +316,7 @@ function Scene({ board, currentTurn, isAiThinking, onMakeMove }: SceneProps) {
             seedSize={0.15}
             canClick={canClick}
             dim={dim}
-            accent="#caa96b"
+            accent="#b45309"
             onClick={() => onMakeMove(p.index)}
             label={String(count)}
           />
@@ -337,7 +335,7 @@ function Scene({ board, currentTurn, isAiThinking, onMakeMove }: SceneProps) {
         seedSize={0.16}
         canClick={false}
         dim={false}
-        accent="#34d399"
+        accent="#0d9488"
         label={String(board.player1Captured)}
         labelStrong
       />
@@ -352,12 +350,12 @@ function Scene({ board, currentTurn, isAiThinking, onMakeMove }: SceneProps) {
         seedSize={0.16}
         canClick={false}
         dim={false}
-        accent="#f5c563"
+        accent="#d97706"
         label={String(board.player2Captured)}
         labelStrong
       />
 
-      <ContactShadows position={[0, -1.02, 0]} opacity={0.55} scale={22} blur={2.6} far={6} resolution={1024} color="#000000" />
+      <ContactShadows position={[0, -1.02, 0]} opacity={0.32} scale={22} blur={2.8} far={6} resolution={1024} color="#4a2f16" />
 
       <OrbitControls
         enablePan={false}
@@ -381,10 +379,11 @@ export default function BoardCanvas(props: SceneProps) {
       shadows
       dpr={[1, 1.8]}
       camera={{ position: [0, 8.4, 8.8], fov: 38 }}
-      gl={{ antialias: true, powerPreference: 'high-performance' }}
+      gl={{ antialias: true, alpha: true, powerPreference: 'high-performance' }}
+      style={{ background: 'transparent' }}
       onCreated={({ gl }) => {
         gl.toneMapping = THREE.ACESFilmicToneMapping;
-        gl.toneMappingExposure = 1.05;
+        gl.toneMappingExposure = 1.1;
       }}
     >
       <Scene {...props} />

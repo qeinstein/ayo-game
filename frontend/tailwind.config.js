@@ -7,28 +7,29 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        // Single, coherent warm-charcoal system
-        ink: '#0c0a08',        // page background (single source of truth)
-        panel: '#16130f',      // card / surface
-        panel2: '#1e1914',     // elevated surface / hover
-        line: '#292420',       // hairline borders
+        // Clean, minimal light system
+        ink: '#f6f7f5',        // page background (single source of truth)
+        panel: '#ffffff',      // card / surface
+        panel2: '#f3f4f1',     // subtle elevated surface / hover fill
+        line: '#e7e8e3',       // hairline borders
         wood: {
-          board: '#3a281b',    // carved board tone (also referenced in 3D scene)
-          rim: '#4c3626',      // pit rim
-          brass: '#caa96b',    // primary accent — champagne brass
-          brassSoft: '#e7cd97',
-          deep: '#8a6f43',
+          board: '#6b4423',    // carved board tone (also referenced in 3D scene)
+          rim: '#835530',      // pit rim
+          brass: '#b45309',    // primary accent — warm bronze/amber
+          brassSoft: '#fef3e2',// soft accent tint (backgrounds)
+          brassHover: '#92400e',
+          deep: '#78350f',
         },
-        jade: '#34d399',       // Player 1 marker
-        gold: '#f5c563',       // Player 2 marker
-        clay: '#fb7185',       // danger / disallowed
+        jade: '#0d9488',       // Player 1 marker
+        gold: '#d97706',       // Player 2 marker
+        clay: '#e11d48',       // danger / disallowed
       },
       fontFamily: {
         sans: ['var(--font-inter)', 'Inter', 'system-ui', '-apple-system', 'Segoe UI', 'sans-serif'],
       },
       boxShadow: {
-        card: '0 1px 0 0 rgba(255,255,255,0.03) inset, 0 20px 40px -24px rgba(0,0,0,0.9)',
-        glow: '0 0 0 1px rgba(202,169,107,0.25), 0 12px 30px -12px rgba(202,169,107,0.25)',
+        card: '0 1px 2px 0 rgba(15,23,42,0.04), 0 14px 34px -18px rgba(15,23,42,0.16)',
+        glow: '0 8px 22px -10px rgba(180,83,9,0.5)',
       },
       keyframes: {
         fadeIn: {

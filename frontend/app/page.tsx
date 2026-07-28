@@ -106,8 +106,8 @@ export default function Home() {
       </main>
 
       <footer className="border-t border-line/70 py-5">
-        <div className="mx-auto flex max-w-5xl flex-col items-center justify-between gap-2 px-4 text-[11px] text-neutral-500 sm:flex-row">
-          <span>Ayò Ọlọ́pọ́n — Yoruba count &amp; capture · © {new Date().getFullYear()}</span>
+        <div className="mx-auto flex max-w-5xl flex-col items-center justify-between gap-2 px-4 text-[11px] text-slate-500 sm:flex-row">
+          <span>Ayo — count &amp; capture strategy · © {new Date().getFullYear()}</span>
           <Link href="/about" className="transition-colors hover:text-wood-brass">
             How it&apos;s built →
           </Link>
