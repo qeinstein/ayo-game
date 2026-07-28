@@ -1,7 +1,7 @@
 'use client';
 
-import React, { useMemo, useRef, useState } from 'react';
-import { Canvas, useFrame, ThreeEvent } from '@react-three/fiber';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
+import { Canvas, useFrame, useThree, ThreeEvent } from '@react-three/fiber';
 import { OrbitControls, ContactShadows, Html } from '@react-three/drei';
 import * as THREE from 'three';
 import { Player, AyoBoard as AyoBoardModel } from '@/lib/api';
@@ -25,6 +25,51 @@ const STORE_HOLE = 0.9;
 const STORE_BOWL = 0.94;
 
 const colX = (c: number) => (c - (COLS - 1) / 2) * COL_GAP;
+
+/* ------------------------------------------------------------------ *
+ * Camera — fixed position/FOV was tuned for a wide (desktop) canvas.
+ * On a narrow mobile container the horizontal field of view shrinks
+ * with the aspect ratio, cropping the sides of the (wide) board. This
+ * pulls the camera back along the same viewing ray as the aspect ratio
+ * narrows, so the full board always stays in frame — full board first,
+ * smaller if it must be, never cropped.
+ * ------------------------------------------------------------------ */
+const BASE_CAM_POS = new THREE.Vector3(0, 8.4, 8.8);
+const CAM_TARGET = new THREE.Vector3(0, -0.1, 0.15);
+const BASE_FOV = 38;
+const BASE_ASPECT = 1.7; // the container aspect ratio the base framing was tuned for
+
+function ResponsiveCamera() {
+  const { camera, size } = useThree();
+
+  useEffect(() => {
+    const aspect = size.width / Math.max(1, size.height);
+    const perspCam = camera as THREE.PerspectiveCamera;
+
+    if (aspect < BASE_ASPECT) {
+      // Widen the FOV a little first (keeps the board looking reasonably large),
+      // then make up any remaining shortfall by dollying the camera back —
+      // both preserve the board's full width in frame at any aspect ratio.
+      const fov = Math.min(56, BASE_FOV + (BASE_ASPECT - aspect) * 22);
+      const wantedWidthFactor = Math.tan((BASE_FOV * Math.PI) / 360) * BASE_ASPECT;
+      const gotWidthFactor = Math.tan((fov * Math.PI) / 360) * aspect;
+      const distanceScale = Math.max(1, wantedWidthFactor / gotWidthFactor);
+
+      perspCam.fov = fov;
+      perspCam.position.copy(
+        CAM_TARGET.clone().add(BASE_CAM_POS.clone().sub(CAM_TARGET).multiplyScalar(distanceScale))
+      );
+    } else {
+      perspCam.fov = BASE_FOV;
+      perspCam.position.copy(BASE_CAM_POS);
+    }
+
+    perspCam.aspect = aspect;
+    perspCam.updateProjectionMatrix();
+  }, [camera, size]);
+
+  return null;
+}
 
 // Bottom row (South) = Player 1, pits 0..5 left→right.
 // Top row (North) = Player 2, pits 6..11 shown 11..6 left→right (counter-clockwise chain).
@@ -267,6 +312,8 @@ function Scene({ board, currentTurn, isAiThinking, onMakeMove }: SceneProps) {
 
   return (
     <>
+      <ResponsiveCamera />
+
       {/* Transparent canvas — the light page background shows through. */}
       <ambientLight intensity={0.85} />
       <hemisphereLight args={['#ffffff', '#e9e4da', 0.75]} />
