@@ -7,34 +7,34 @@ module.exports = {
   theme: {
     extend: {
       colors: {
+        surface: {
+          bg: '#0B0B0C',        // Deep matte charcoal
+          panel: '#141416',     // Clean panel background
+          elevated: '#1A1A1E',  // Subtle elevated card
+          border: '#27272A',    // Muted border
+        },
         wood: {
-          dark: '#1A0F0A',
-          board: '#2E180D',
-          pit: '#190B05',
-          rim: '#5C3317',
-          accent: '#A0522D',
-          gold: '#D4AF37',
-          light: '#DEB887',
+          dark: '#140E0A',
+          board: '#231812',
+          pit: '#0D0805',
+          rim: '#3D2A20',
+          accent: '#8C6F56',    // Muted warm cedar
+          brass: '#C5A880',     // Subtle champagne gold
+          muted: '#6B5B52',
         },
-        ota: {
-          DEFAULT: '#10B981', // Winner green
-          light: '#34D399',
-        },
-        ope: {
-          DEFAULT: '#EF4444', // Red
-          light: '#F87171',
+        accent: {
+          primary: '#C5A880',   // Subtle warm brass
+          success: '#10B981',   // Soft emerald
+          danger: '#F43F5E',    // Soft rose
         }
       },
       fontFamily: {
-        sans: ['Inter', 'system-ui', 'sans-serif'],
+        sans: ['Inter', 'system-ui', '-apple-system', 'sans-serif'],
       },
-      backgroundImage: {
-        'wood-pattern': "radial-gradient(circle at 50% 50%, #3D1E0E 0%, #1E0D05 100%)",
-        'pit-gradient': "radial-gradient(circle at 50% 50%, #0F0603 0%, #2A140A 100%)",
-      },
-      animation: {
-        'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
-        'bounce-short': 'bounce 0.6s ease-in-out 1',
+      boxShadow: {
+        'pit-inset': 'inset 0 10px 20px rgba(0, 0, 0, 0.95), inset 0 -2px 4px rgba(255, 255, 255, 0.04)',
+        'board-3d': '0 25px 50px -12px rgba(0, 0, 0, 0.95), 0 0 0 1px rgba(197, 168, 128, 0.12), inset 0 1px 2px rgba(255, 255, 255, 0.08)',
+        'seed-3d': '2px 5px 8px rgba(0, 0, 0, 0.85), inset -1px -2px 3px rgba(0, 0, 0, 0.6), inset 1px 1px 2px rgba(255, 255, 255, 0.9)',
       }
     },
   },
